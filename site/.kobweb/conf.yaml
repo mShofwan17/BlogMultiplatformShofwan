@@ -1,0 +1,14 @@
+site:
+  title: "BlogMultiplatformShofwan"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/dist/js/developmentExecutable/blogmultiplatformshofwan.js"
+      api: "build/libs/blogmultiplatformshofwan.jar"
+    prod:
+      script: "build/dist/js/productionExecutable/blogmultiplatformshofwan.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
@@ -30,8 +29,10 @@ import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import me.learn.blogmultiplatformshofwan.models.Theme
+import me.learn.blogmultiplatformshofwan.styles.loginInputStyle
 import me.learn.blogmultiplatformshofwan.utils.Constant
 import me.learn.blogmultiplatformshofwan.utils.ResConst
 import org.jetbrains.compose.web.attributes.InputType
@@ -66,22 +67,17 @@ fun LoginScreen() {
 
             Input(
                 type = InputType.Text,
-                attrs = Modifier
+                attrs = loginInputStyle.toModifier()
                     .width(350.px)
-                    .height(54.px)
+                    .height(50.px)
                     .padding(leftRight = 20.px)
                     .margin(bottom = 12.px)
                     .backgroundColor(Colors.White)
                     .fontFamily(Constant.FONT_ARIAL_FAMILY)
-                    .border {
-                        width(0.px)
-                        style(LineStyle.None)
-                        color(Colors.Transparent)
-                    }
                     .outline(
-                        width = 1.5.px,
-                        style = LineStyle.Inset,
-                        color = Theme.PrimaryColor.rgb
+                        width = 0.px,
+                        style = LineStyle.None,
+                        color = Colors.Transparent
                     )
                     .toAttrs {
                         attr("placeholder", "Username")
@@ -90,22 +86,17 @@ fun LoginScreen() {
 
             Input(
                 type = InputType.Password,
-                attrs = Modifier
+                attrs = loginInputStyle.toModifier()
                     .width(350.px)
-                    .height(54.px)
+                    .height(50.px)
                     .padding(leftRight = 20.px)
                     .margin(top = 8.px, bottom = 20.px)
                     .fontFamily(Constant.FONT_ARIAL_FAMILY)
                     .backgroundColor(Colors.White)
-                    .border {
-                        width(0.px)
-                        style(LineStyle.None)
-                        color(Colors.Transparent)
-                    }
                     .outline(
-                        width = 1.5.px,
-                        style = LineStyle.Inset,
-                        color = Theme.PrimaryColor.rgb
+                        width = 0.px,
+                        style = LineStyle.None,
+                        color = Colors.Transparent
                     )
                     .toAttrs {
                         attr("placeholder", "Password")

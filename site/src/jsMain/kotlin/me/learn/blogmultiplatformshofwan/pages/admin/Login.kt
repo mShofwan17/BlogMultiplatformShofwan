@@ -66,7 +66,7 @@ import org.w3c.dom.set
 fun LoginScreen() {
     val scope = rememberCoroutineScope()
     val context = rememberPageContext()
-    var errorText by remember { mutableStateOf("") }
+    var errorText by remember { mutableStateOf(" ") }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -90,7 +90,7 @@ fun LoginScreen() {
             Input(
                 type = InputType.Text,
                 attrs = loginInputStyle.toModifier()
-                    .id(IdConst.InputType.username)
+                    .id(username)
                     .width(350.px)
                     .height(50.px)
                     .padding(leftRight = 20.px)
@@ -110,7 +110,7 @@ fun LoginScreen() {
             Input(
                 type = InputType.Password,
                 attrs = loginInputStyle.toModifier()
-                    .id(IdConst.InputType.password)
+                    .id(password)
                     .width(350.px)
                     .height(50.px)
                     .padding(leftRight = 20.px)
@@ -166,7 +166,7 @@ fun LoginScreen() {
 
                                 if (user != null) {
                                     rememberLoggedIn(remember = true, user = user)
-                                    context.router.navigateTo("admin/home")
+                                    context.router.navigateTo("/admin")
                                 } else {
                                     errorText = "User does not exist."
                                     delay(3000)
@@ -189,7 +189,8 @@ fun LoginScreen() {
                     .fillMaxWidth()
                     .color(Colors.Red)
                     .margin(top = 24.px)
-                    .textAlign(TextAlign.Center),
+                    .textAlign(TextAlign.Center)
+                    .fontFamily(Constant.FONT_ARIAL_FAMILY),
                 text = errorText
             )
 

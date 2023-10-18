@@ -6,6 +6,7 @@ import kotlinx.serialization.json.Json
 import me.learn.blogmultiplatformshofwan.models.User
 import me.learn.blogmultiplatformshofwan.models.UserSafe
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 
 suspend fun checkUserExistence(user: User): UserSafe? {
     return try {
@@ -14,7 +15,7 @@ suspend fun checkUserExistence(user: User): UserSafe? {
             body = Json.encodeToString(user).encodeToByteArray()
         )
 
-        Json.decodeFromString<UserSafe>(result.toString())
+        result?.decodeToString()?.let { Json.decodeFromString<UserSafe>(it) }
     } catch (e: Exception){
         println(e.message)
         null

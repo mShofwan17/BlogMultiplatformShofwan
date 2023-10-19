@@ -14,16 +14,21 @@ import com.varabyte.kobweb.compose.ui.modifiers.cursor
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
 import com.varabyte.kobweb.compose.ui.modifiers.height
+import com.varabyte.kobweb.compose.ui.modifiers.id
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.position
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.modifiers.zIndex
+import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.icons.fa.FaStackpath
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import me.learn.blogmultiplatformshofwan.models.Theme
+import me.learn.blogmultiplatformshofwan.styles.NavigationItemStyle
 import me.learn.blogmultiplatformshofwan.utils.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.ResConst
@@ -88,22 +93,26 @@ fun NavigationItem(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = modifier
+        modifier = NavigationItemStyle.toModifier()
+            .then(modifier)
             .cursor(Cursor.Pointer)
             .onClick { onClick.invoke() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         VectorIcon(
             modifier = Modifier.margin(right = 10.px),
-            pathData = icon,
-            color = if (selected) Theme.PrimaryColor.hex else Theme.HalfWhite.hex
+            selected = selected,
+            pathData = icon
+            //color = if (selected) Theme.PrimaryColor.hex else Theme.HalfWhite.hex
         )
         SpanText(
             modifier = Modifier
+                .id("navigationText")
                 .fontFamily(FONT_ARIAL_FAMILY)
                 .fontSize(16.px)
-                .color(
-                    if (selected) Theme.PrimaryColor.rgb else Theme.White.rgb
+                .thenIf(
+                    condition = selected,
+                    other = Modifier.color(Theme.PrimaryColor.rgb)
                 ),
             text = title
         )
@@ -113,20 +122,26 @@ fun NavigationItem(
 @Composable
 fun VectorIcon(
     modifier: Modifier = Modifier,
-    pathData: String,
-    color: String
+    selected: Boolean,
+    pathData: String
 ) {
+
     Svg(
         attrs = modifier
+            .id("svgParent")
             .width(24.px)
             .height(24.px).toAttrs {
                 attr("viewBox", "0 0 24 24")
                 attr("fill", "none")
             }
     ) {
+
         Path {
+            if (selected) {
+                attr("style", "stroke: ${Theme.PrimaryColor.hex}")
+            }
+            attr("id", "vectorIcon")
             attr("d", pathData)
-            attr("stroke", color)
             attr("stroke-width", "2")
             attr("stroke-line-cap", "round")
             attr("stroke-line-join", "round")

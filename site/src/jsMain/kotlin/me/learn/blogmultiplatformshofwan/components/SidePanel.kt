@@ -34,6 +34,7 @@ import me.learn.blogmultiplatformshofwan.utils.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.IdConst
 import me.learn.blogmultiplatformshofwan.utils.ResConst
+import me.learn.blogmultiplatformshofwan.utils.logout
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.vh
@@ -70,23 +71,32 @@ fun SidePanel() {
             selected = context.route.path == Screen.Admin.Home.route,
             title = "Home",
             icon = ResConst.PathIcon.home
-        ) {}
+        ) {
+            context.router.navigateTo(Screen.Admin.Home.route)
+        }
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
             selected = context.route.path == Screen.Admin.Create.route,
             title = "Create Post",
             icon = ResConst.PathIcon.add_post
-        ) {}
+        ) {
+            context.router.navigateTo(Screen.Admin.Create.route)
+        }
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
             selected = context.route.path == Screen.Admin.Posts.route,
             title = "My Posts",
             icon = ResConst.PathIcon.posts
-        ) {}
+        ) {
+            context.router.navigateTo(Screen.Admin.Posts.route)
+        }
         NavigationItem(
             title = "Logout",
             icon = ResConst.PathIcon.logout
-        ) {}
+        ) {
+            logout()
+            context.router.navigateTo(Screen.Admin.Login.route)
+        }
     }
 }
 

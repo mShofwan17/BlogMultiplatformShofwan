@@ -10,6 +10,7 @@ import com.varabyte.kobweb.core.rememberPageContext
 import kotlinx.browser.localStorage
 import me.learn.blogmultiplatformshofwan.navigation.Screen
 import org.w3c.dom.get
+import org.w3c.dom.set
 
 @Composable
 fun isUserLoggedIn(content: @Composable () -> Unit) {
@@ -28,4 +29,10 @@ fun isUserLoggedIn(content: @Composable () -> Unit) {
     if (remembered && userIdExist) content()
     else println("Loading..")
 
+}
+
+fun logout(){
+    localStorage["remember"] = false.toString()
+    localStorage["userId"] = ""
+    localStorage["username"] = ""
 }

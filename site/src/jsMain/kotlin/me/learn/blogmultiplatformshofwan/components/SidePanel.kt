@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.dom.Path
 import com.varabyte.kobweb.compose.dom.Svg
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -12,6 +13,7 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.fontFamily
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
@@ -28,6 +30,7 @@ import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.FaBars
+import com.varabyte.kobweb.silk.components.icons.fa.FaXmark
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.style.toModifier
@@ -36,23 +39,25 @@ import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.NavigationItemStyle
-import me.learn.blogmultiplatformshofwan.utils.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.Constant.COLLAPSED_PANEL_HEIGHT
+import me.learn.blogmultiplatformshofwan.utils.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.IdConst
 import me.learn.blogmultiplatformshofwan.utils.ResConst
 import me.learn.blogmultiplatformshofwan.utils.logout
 import org.jetbrains.compose.web.css.Position
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.vh
 
 @Composable
 fun SidelPanel(onMenuClick: () -> Unit) {
     val breakpoint = rememberBreakpoint()
-    if (breakpoint> Breakpoint.MD) SidePanelInternal()
+    if (breakpoint > Breakpoint.MD) SidePanelInternal()
     else CollapsedSidePanel { onMenuClick.invoke() }
 
 }
+
 @Composable
 fun SidePanelInternal() {
     val context = rememberPageContext()
@@ -71,51 +76,57 @@ fun SidePanelInternal() {
             src = ResConst.Image.logo,
             desc = "Logo Image"
         )
-        SpanText(
-            modifier = Modifier
-                .margin(bottom = 30.px)
-                .fontFamily(FONT_ARIAL_FAMILY)
-                .fontSize(14.px)
-                .color(Theme.HalfWhite.rgb),
-            text = "Dashboard"
-        )
-
-        NavigationItem(
-            modifier = Modifier.margin(bottom = 24.px),
-            selected = context.route.path == Screen.Admin.Home.route,
-            title = "Home",
-            icon = ResConst.PathIcon.home
-        ) {
-            context.router.navigateTo(Screen.Admin.Home.route)
-        }
-        NavigationItem(
-            modifier = Modifier.margin(bottom = 24.px),
-            selected = context.route.path == Screen.Admin.Create.route,
-            title = "Create Post",
-            icon = ResConst.PathIcon.add_post
-        ) {
-            context.router.navigateTo(Screen.Admin.Create.route)
-        }
-        NavigationItem(
-            modifier = Modifier.margin(bottom = 24.px),
-            selected = context.route.path == Screen.Admin.Posts.route,
-            title = "My Posts",
-            icon = ResConst.PathIcon.posts
-        ) {
-            context.router.navigateTo(Screen.Admin.Posts.route)
-        }
-        NavigationItem(
-            title = "Logout",
-            icon = ResConst.PathIcon.logout
-        ) {
-            logout()
-            context.router.navigateTo(Screen.Admin.Login.route)
-        }
+        NavigationItems()
     }
 }
 
 @Composable
-fun NavigationItem(
+private fun NavigationItems() {
+    val context = rememberPageContext()
+    SpanText(
+        modifier = Modifier
+            .margin(bottom = 30.px)
+            .fontFamily(FONT_ARIAL_FAMILY)
+            .fontSize(14.px)
+            .color(Theme.HalfWhite.rgb),
+        text = "Dashboard"
+    )
+
+    NavigationItem(
+        modifier = Modifier.margin(bottom = 24.px),
+        selected = context.route.path == Screen.Admin.Home.route,
+        title = "Home",
+        icon = ResConst.PathIcon.home
+    ) {
+        context.router.navigateTo(Screen.Admin.Home.route)
+    }
+    NavigationItem(
+        modifier = Modifier.margin(bottom = 24.px),
+        selected = context.route.path == Screen.Admin.Create.route,
+        title = "Create Post",
+        icon = ResConst.PathIcon.add_post
+    ) {
+        context.router.navigateTo(Screen.Admin.Create.route)
+    }
+    NavigationItem(
+        modifier = Modifier.margin(bottom = 24.px),
+        selected = context.route.path == Screen.Admin.Posts.route,
+        title = "My Posts",
+        icon = ResConst.PathIcon.posts
+    ) {
+        context.router.navigateTo(Screen.Admin.Posts.route)
+    }
+    NavigationItem(
+        title = "Logout",
+        icon = ResConst.PathIcon.logout
+    ) {
+        logout()
+        context.router.navigateTo(Screen.Admin.Login.route)
+    }
+}
+
+@Composable
+private fun NavigationItem(
     modifier: Modifier = Modifier,
     selected: Boolean = false,
     title: String,
@@ -150,7 +161,7 @@ fun NavigationItem(
 }
 
 @Composable
-fun VectorIcon(
+private fun VectorIcon(
     modifier: Modifier = Modifier,
     selected: Boolean,
     pathData: String
@@ -180,7 +191,7 @@ fun VectorIcon(
 }
 
 @Composable
-fun CollapsedSidePanel(onMenuClick: () -> Unit) {
+private fun CollapsedSidePanel(onMenuClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -194,8 +205,7 @@ fun CollapsedSidePanel(onMenuClick: () -> Unit) {
                 .margin(right = 24.px)
                 .color(Colors.White)
                 .cursor(Cursor.Pointer)
-                .onClick { onMenuClick.invoke() }
-            ,
+                .onClick { onMenuClick.invoke() },
             size = IconSize.XL
         )
         Image(
@@ -203,5 +213,51 @@ fun CollapsedSidePanel(onMenuClick: () -> Unit) {
             src = ResConst.Image.logo,
             desc = "Logo Image"
         )
+    }
+}
+
+@Composable
+fun OverflowSidePanel(
+    onMenuClose: () -> Unit
+) {
+    val breakpoint = rememberBreakpoint()
+
+    Box(
+        modifier = Modifier.fillMaxWidth()
+            .height(100.vh)
+            .position(Position.Fixed)
+            .zIndex(9)
+            .backgroundColor(Theme.HalfBlack.rgb)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxHeight()
+                .width(
+                    if (breakpoint < Breakpoint.MD) 50.percent
+                    else 25.percent
+                )
+                .padding(all = 24.px)
+                .backgroundColor(Theme.Secondary.rgb)
+
+        ) {
+            Row(
+                modifier = Modifier
+                    .margin(bottom = 60.px),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                FaXmark(
+                    modifier = Modifier.margin(right = 20.px)
+                        .color(Colors.White)
+                        .cursor(Cursor.Pointer)
+                        .onClick { onMenuClose.invoke() },
+                    size = IconSize.LG
+                )
+                Image(
+                    modifier = Modifier.width(80.px),
+                    src = ResConst.Image.logo,
+                    desc = "Logo Image"
+                )
+            }
+            NavigationItems()
+        }
     }
 }

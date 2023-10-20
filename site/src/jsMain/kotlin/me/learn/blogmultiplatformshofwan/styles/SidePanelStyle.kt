@@ -8,29 +8,30 @@ import com.varabyte.kobweb.compose.ui.modifiers.transition
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import me.learn.blogmultiplatformshofwan.models.Theme
+import me.learn.blogmultiplatformshofwan.utils.IdConst
 import org.jetbrains.compose.web.css.ms
 
 val NavigationItemStyle by ComponentStyle {
-    cssRule(" > #svgParent > #vectorIcon") {
+    cssRule(" > #${IdConst.ImageType.svgParent} > #${IdConst.ImageType.vectorIcon}") {
         Modifier
             .transition(CSSTransition(property = TransitionProperty.All, duration = 300.ms))
             .styleModifier {
                 property("stroke", Theme.White.hex)
             }
     }
-    cssRule(":hover > #svgParent > #vectorIcon") {
+    cssRule(":hover > #${IdConst.ImageType.svgParent} > #${IdConst.ImageType.vectorIcon}") {
         Modifier
             .transition(CSSTransition(property = TransitionProperty.All, duration = 300.ms))
             .styleModifier {
             property("stroke", Theme.PrimaryColor.hex)
         }
     }
-    cssRule(" > #navigationText") {
+    cssRule(" > #${IdConst.navigationText}") {
         Modifier
             .transition(CSSTransition(property = TransitionProperty.All, duration = 300.ms))
             .color(Theme.White.rgb)
     }
-    cssRule(":hover > #navigationText") {
+    cssRule(":hover > #${IdConst.navigationText}") {
         Modifier.color(Theme.PrimaryColor.rgb)
     }
 }

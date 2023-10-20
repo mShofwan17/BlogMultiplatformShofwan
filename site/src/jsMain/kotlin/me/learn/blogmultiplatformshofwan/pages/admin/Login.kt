@@ -46,9 +46,9 @@ import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.models.User
 import me.learn.blogmultiplatformshofwan.models.UserSafe
+import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.loginInputStyle
 import me.learn.blogmultiplatformshofwan.utils.Constant
-import me.learn.blogmultiplatformshofwan.utils.IdConst
 import me.learn.blogmultiplatformshofwan.utils.IdConst.InputType.password
 import me.learn.blogmultiplatformshofwan.utils.IdConst.InputType.username
 import me.learn.blogmultiplatformshofwan.utils.ResConst
@@ -166,7 +166,7 @@ fun LoginScreen() {
 
                                 if (user != null) {
                                     rememberLoggedIn(remember = true, user = user)
-                                    context.router.navigateTo("/admin")
+                                    context.router.navigateTo(Screen.Admin.Home.route)
                                 } else {
                                     errorText = "User does not exist."
                                     delay(3000)

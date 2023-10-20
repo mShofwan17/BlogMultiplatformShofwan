@@ -23,14 +23,16 @@ import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.modifiers.zIndex
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
-import com.varabyte.kobweb.silk.components.icons.fa.FaStackpath
 import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import me.learn.blogmultiplatformshofwan.models.Theme
+import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.NavigationItemStyle
 import me.learn.blogmultiplatformshofwan.utils.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.Constant.SIDE_PANEL_WIDTH
+import me.learn.blogmultiplatformshofwan.utils.IdConst
 import me.learn.blogmultiplatformshofwan.utils.ResConst
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.px
@@ -38,6 +40,8 @@ import org.jetbrains.compose.web.css.vh
 
 @Composable
 fun SidePanel() {
+    val context = rememberPageContext()
+
     Column(
         modifier = Modifier
             .padding(leftRight = 40.px, topBottom = 50.px)
@@ -63,17 +67,19 @@ fun SidePanel() {
 
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
-            selected = true,
+            selected = context.route.path == Screen.Admin.Home.route,
             title = "Home",
             icon = ResConst.PathIcon.home
         ) {}
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
+            selected = context.route.path == Screen.Admin.Create.route,
             title = "Create Post",
             icon = ResConst.PathIcon.add_post
         ) {}
         NavigationItem(
             modifier = Modifier.margin(bottom = 24.px),
+            selected = context.route.path == Screen.Admin.Posts.route,
             title = "My Posts",
             icon = ResConst.PathIcon.posts
         ) {}
@@ -107,7 +113,7 @@ fun NavigationItem(
         )
         SpanText(
             modifier = Modifier
-                .id("navigationText")
+                .id(IdConst.navigationText)
                 .fontFamily(FONT_ARIAL_FAMILY)
                 .fontSize(16.px)
                 .thenIf(
@@ -128,7 +134,7 @@ fun VectorIcon(
 
     Svg(
         attrs = modifier
-            .id("svgParent")
+            .id(IdConst.ImageType.svgParent)
             .width(24.px)
             .height(24.px).toAttrs {
                 attr("viewBox", "0 0 24 24")
@@ -140,7 +146,7 @@ fun VectorIcon(
             if (selected) {
                 attr("style", "stroke: ${Theme.PrimaryColor.hex}")
             }
-            attr("id", "vectorIcon")
+            attr("id", IdConst.ImageType.vectorIcon)
             attr("d", pathData)
             attr("stroke-width", "2")
             attr("stroke-line-cap", "round")

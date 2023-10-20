@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.core.rememberPageContext
 import kotlinx.browser.localStorage
+import me.learn.blogmultiplatformshofwan.navigation.Screen
 import org.w3c.dom.get
 
 @Composable
@@ -17,10 +18,10 @@ fun isUserLoggedIn(content: @Composable () -> Unit) {
     val userId = remember { localStorage["userId"] }
     var userIdExist by remember { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = Unit){
+    LaunchedEffect(key1 = Unit) {
         userIdExist = if (!userId.isNullOrEmpty()) checkUserId(id = userId) else false
-        if (!remembered || !userIdExist){
-            context.router.navigateTo("/admin/login")
+        if (!remembered || !userIdExist) {
+            context.router.navigateTo(Screen.Admin.Login.route)
         }
     }
 

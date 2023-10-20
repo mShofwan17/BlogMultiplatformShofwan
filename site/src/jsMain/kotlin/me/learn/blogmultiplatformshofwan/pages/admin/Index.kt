@@ -39,7 +39,6 @@ fun HomePage() {
     isUserLoggedIn {
         HomeScreen()
     }
-
 }
 
 @Composable

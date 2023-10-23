@@ -38,8 +38,7 @@ fun AdminPageLayout(
                     overflowMenuOpen = false
                 }
             }
+            content.invoke()
         }
-
-        content.invoke()
     }
 }

@@ -43,5 +43,15 @@ enum class Theme(
     Purple(
         hex = "#FF6359",
         rgb = rgb(r = 255, g = 99, b = 89)
-    )
+    ),
+
+    Gray(
+    hex = "#E9E9E9",
+    rgb = rgb(r = 233, g = 233, b = 233)
+    ),
+
+    DarkGray(
+        hex = "#646464",
+        rgb = rgb(r = 100, g = 100, b = 100)
+    ),
 }

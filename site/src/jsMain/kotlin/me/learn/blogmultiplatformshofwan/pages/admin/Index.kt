@@ -38,7 +38,6 @@ import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.FaPlus
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
@@ -65,7 +64,6 @@ fun HomePage() {
         HomeScreen()
     }
 }
-
 @Composable
 fun HomeScreen() {
     var randomJoke: RandomJoke? by remember { mutableStateOf(null) }

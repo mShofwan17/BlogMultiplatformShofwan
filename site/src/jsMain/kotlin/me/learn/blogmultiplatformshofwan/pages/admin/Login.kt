@@ -16,7 +16,6 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
-import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.cursor
@@ -48,11 +47,12 @@ import me.learn.blogmultiplatformshofwan.models.User
 import me.learn.blogmultiplatformshofwan.models.UserSafe
 import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.loginInputStyle
+import me.learn.blogmultiplatformshofwan.utils.checkUserExistence
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst.InputType.password
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst.InputType.username
 import me.learn.blogmultiplatformshofwan.utils.constant.ResConst
-import me.learn.blogmultiplatformshofwan.utils.checkUserExistence
+import me.learn.blogmultiplatformshofwan.utils.noBorder
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
@@ -137,16 +137,7 @@ fun LoginScreen() {
                     .fontWeight(FontWeight.Bold)
                     .fontSize(16.px)
                     .color(Colors.White)
-                    .border(
-                        width = 0.px,
-                        style = LineStyle.None,
-                        color = Colors.Transparent
-                    )
-                    .outline(
-                        width = 0.px,
-                        style = LineStyle.None,
-                        color = Colors.Transparent
-                    )
+                    .noBorder()
                     .cursor(cursor = Cursor.Pointer)
                     .onClick {
                         scope.launch {

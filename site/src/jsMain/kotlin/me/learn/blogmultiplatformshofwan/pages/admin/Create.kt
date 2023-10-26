@@ -21,7 +21,6 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.attrsModifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
-import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
 import com.varabyte.kobweb.compose.ui.modifiers.classNames
 import com.varabyte.kobweb.compose.ui.modifiers.color
@@ -39,7 +38,6 @@ import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
-import com.varabyte.kobweb.compose.ui.modifiers.outline
 import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.resize
@@ -66,12 +64,12 @@ import me.learn.blogmultiplatformshofwan.styles.EditorKeyStyle
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
-import me.learn.blogmultiplatformshofwan.utils.sizeBreakpoint
 import me.learn.blogmultiplatformshofwan.utils.isUserLoggedIn
 import me.learn.blogmultiplatformshofwan.utils.largerThanMD
+import me.learn.blogmultiplatformshofwan.utils.noBorder
+import me.learn.blogmultiplatformshofwan.utils.sizeBreakpoint
 import me.learn.blogmultiplatformshofwan.utils.smallerThanSM
 import org.jetbrains.compose.web.attributes.InputType
-import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.A
 import org.jetbrains.compose.web.dom.Button
@@ -213,16 +211,7 @@ fun CreateScreen() {
                         .padding(leftRight = 20.px)
                         .backgroundColor(Theme.LightGreyColor.rgb)
                         .borderRadius(r = 4.px)
-                        .border(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
-                        .outline(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
+                        .noBorder()
                         .fontFamily(FONT_ARIAL_FAMILY)
                         .fontSize(16.px)
                         .toAttrs {
@@ -240,16 +229,7 @@ fun CreateScreen() {
                         .padding(leftRight = 20.px)
                         .backgroundColor(Theme.LightGreyColor.rgb)
                         .borderRadius(r = 4.px)
-                        .border(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
-                        .outline(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
+                        .noBorder()
                         .fontFamily(FONT_ARIAL_FAMILY)
                         .fontSize(16.px)
                         .toAttrs {
@@ -304,32 +284,11 @@ fun CreateScreen() {
                     }
                 )
                 Editor(editorVisibility = editorVisibility)
-                Button(
-                    attrs = Modifier
-                        .fillMaxWidth()
-                        .height(54.px)
-                        .margin(top = 8.px)
-                        .backgroundColor(Theme.PrimaryColor.rgb)
-                        .color(Colors.White)
-                        .border(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
-                        .outline(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
-                        .borderRadius(r = 4.px)
-                        .fontFamily(FONT_ARIAL_FAMILY)
-                        .onClick {
+                CreateButton(
+                    onCreateClicked = {
 
-                        }
-                        .toAttrs()
-                ) {
-                    SpanText("Create Post")
-                }
+                    }
+                )
             }
         }
     }
@@ -418,16 +377,7 @@ fun ThumbnailUploader(
                 .padding(leftRight = 20.px)
                 .backgroundColor(Theme.LightGreyColor.rgb)
                 .borderRadius(r = 4.px)
-                .border(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
-                .outline(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
+                .noBorder()
                 .fontFamily(FONT_ARIAL_FAMILY)
                 .fontSize(16.px)
                 .thenIf(
@@ -446,16 +396,7 @@ fun ThumbnailUploader(
                 .padding(leftRight = 24.px)
                 .backgroundColor(if (!thumbnailInputDisabled) Theme.Gray.rgb else Theme.PrimaryColor.rgb)
                 .color(if (!thumbnailInputDisabled) Theme.DarkGray.rgb else Theme.White.rgb)
-                .border(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
-                .outline(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
+                .noBorder()
                 .borderRadius(r = 4.px)
                 .fontFamily(FONT_ARIAL_FAMILY)
                 .fontWeight(FontWeight.Medium)
@@ -529,16 +470,7 @@ fun EditorControls(
                             else Theme.White.rgb
                         )
                         .cursor(Cursor.Pointer)
-                        .border(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
-                        .outline(
-                            width = 0.px,
-                            style = LineStyle.None,
-                            color = Colors.Transparent
-                        )
+                        .noBorder()
                         .onClick {
                             onEditorVisibilityChange()
                         }
@@ -595,16 +527,7 @@ fun Editor(
                 .backgroundColor(Theme.LightGreyColor.rgb)
                 .borderRadius(4.px)
                 .resize(Resize.None)
-                .border(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
-                .outline(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
+                .noBorder()
                 .visibility(
                     if (editorVisibility) Visibility.Visible else Visibility.Hidden
                 )
@@ -625,16 +548,7 @@ fun Editor(
                 .backgroundColor(Theme.LightGreyColor.rgb)
                 .borderRadius(4.px)
                 .resize(Resize.None)
-                .border(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
-                .outline(
-                    width = 0.px,
-                    style = LineStyle.None,
-                    color = Colors.Transparent
-                )
+                .noBorder()
                 .visibility(
                     if (editorVisibility) Visibility.Hidden else Visibility.Visible
                 )
@@ -644,5 +558,28 @@ fun Editor(
         ) {
 
         }
+    }
+}
+
+@Composable
+fun CreateButton(
+    onCreateClicked : () -> Unit
+) {
+    Button(
+        attrs = Modifier
+            .fillMaxWidth()
+            .height(54.px)
+            .margin(top = 8.px)
+            .backgroundColor(Theme.PrimaryColor.rgb)
+            .color(Colors.White)
+            .noBorder()
+            .borderRadius(r = 4.px)
+            .fontFamily(FONT_ARIAL_FAMILY)
+            .onClick {
+                onCreateClicked()
+            }
+            .toAttrs()
+    ) {
+        SpanText("Create Post")
     }
 }

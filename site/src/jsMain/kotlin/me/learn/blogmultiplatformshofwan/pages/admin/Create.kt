@@ -44,6 +44,7 @@ import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
@@ -51,6 +52,7 @@ import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
 import me.learn.blogmultiplatformshofwan.models.Category
 import me.learn.blogmultiplatformshofwan.models.EditorKey
 import me.learn.blogmultiplatformshofwan.models.Theme
+import me.learn.blogmultiplatformshofwan.styles.EditorKeyStyle
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.isUserLoggedIn
@@ -435,6 +437,10 @@ fun EditorControls(breakpoint: Breakpoint) {
                 Button(
                     attrs = Modifier
                         .height(54.px)
+                        .thenIf(
+                            condition = breakpoint < Breakpoint.SM,
+                            other = Modifier.fillMaxWidth()
+                        )
                         .margin(topBottom = if (breakpoint < Breakpoint.SM) 12.px else 0.px)
                         .padding(leftRight = 24.px)
                         .borderRadius(4.px)
@@ -472,7 +478,7 @@ fun EditorControls(breakpoint: Breakpoint) {
 @Composable
 fun EditorKeyView(key: EditorKey) {
     Box(
-        modifier = Modifier
+        modifier = EditorKeyStyle.toModifier()
             .fillMaxHeight()
             .padding(leftRight = 12.px)
             .borderRadius(r = 4.px)

@@ -1,9 +1,20 @@
-package me.learn.blogmultiplatformshofwan.utils
+package me.learn.blogmultiplatformshofwan.utils.constant
 
 object ResConst {
     object Image {
         const val logo = "/logo.svg"
         const val laugh = "/laugh.png"
+    }
+
+    object Icon {
+        const val bold = "/bold.svg"
+        const val code = "/code.svg"
+        const val italic = "/italic.svg"
+        const val link = "/link.svg"
+        const val photograph = "/photograph.svg"
+        const val quote = "/quote.svg"
+        const val subtitle = "/subtitle.svg"
+        const val title = "/title.svg"
     }
 
     object PathIcon {

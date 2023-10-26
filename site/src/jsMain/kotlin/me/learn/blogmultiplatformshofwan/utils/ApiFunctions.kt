@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import me.learn.blogmultiplatformshofwan.models.RandomJoke
 import me.learn.blogmultiplatformshofwan.models.User
 import me.learn.blogmultiplatformshofwan.models.UserSafe
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant
 import org.w3c.dom.get
 import org.w3c.dom.set
 import kotlin.js.Date

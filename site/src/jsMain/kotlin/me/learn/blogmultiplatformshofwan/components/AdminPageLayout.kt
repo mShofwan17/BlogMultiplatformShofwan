@@ -11,7 +11,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
-import me.learn.blogmultiplatformshofwan.utils.Constant
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant
 import org.jetbrains.compose.web.css.px
 
 @Composable

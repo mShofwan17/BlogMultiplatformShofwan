@@ -46,9 +46,9 @@ import me.learn.blogmultiplatformshofwan.components.LoadingIndicator
 import me.learn.blogmultiplatformshofwan.models.RandomJoke
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.navigation.Screen
-import me.learn.blogmultiplatformshofwan.utils.Constant
-import me.learn.blogmultiplatformshofwan.utils.Constant.SIDE_PANEL_WIDTH
-import me.learn.blogmultiplatformshofwan.utils.ResConst
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
+import me.learn.blogmultiplatformshofwan.utils.constant.ResConst
 import me.learn.blogmultiplatformshofwan.utils.fetchRandomJoke
 import me.learn.blogmultiplatformshofwan.utils.isUserLoggedIn
 import org.jetbrains.compose.web.css.Position

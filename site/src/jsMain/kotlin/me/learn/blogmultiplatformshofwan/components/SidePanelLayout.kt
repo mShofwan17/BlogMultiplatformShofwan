@@ -55,11 +55,11 @@ import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.NavigationItemStyle
-import me.learn.blogmultiplatformshofwan.utils.Constant.COLLAPSED_PANEL_HEIGHT
-import me.learn.blogmultiplatformshofwan.utils.Constant.FONT_ARIAL_FAMILY
-import me.learn.blogmultiplatformshofwan.utils.Constant.SIDE_PANEL_WIDTH
-import me.learn.blogmultiplatformshofwan.utils.IdConst
-import me.learn.blogmultiplatformshofwan.utils.ResConst
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant.COLLAPSED_PANEL_HEIGHT
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
+import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
+import me.learn.blogmultiplatformshofwan.utils.constant.ResConst
 import me.learn.blogmultiplatformshofwan.utils.logout
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.ms

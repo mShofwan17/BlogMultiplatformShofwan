@@ -1,4 +1,4 @@
-package me.learn.blogmultiplatformshofwan.utils
+package me.learn.blogmultiplatformshofwan.utils.constant
 
 object Constant {
     const val FONT_FAMILY = "Roboto"

@@ -48,10 +48,10 @@ import me.learn.blogmultiplatformshofwan.models.User
 import me.learn.blogmultiplatformshofwan.models.UserSafe
 import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.loginInputStyle
-import me.learn.blogmultiplatformshofwan.utils.Constant
-import me.learn.blogmultiplatformshofwan.utils.IdConst.InputType.password
-import me.learn.blogmultiplatformshofwan.utils.IdConst.InputType.username
-import me.learn.blogmultiplatformshofwan.utils.ResConst
+import me.learn.blogmultiplatformshofwan.utils.constant.Constant
+import me.learn.blogmultiplatformshofwan.utils.constant.IdConst.InputType.password
+import me.learn.blogmultiplatformshofwan.utils.constant.IdConst.InputType.username
+import me.learn.blogmultiplatformshofwan.utils.constant.ResConst
 import me.learn.blogmultiplatformshofwan.utils.checkUserExistence
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.LineStyle

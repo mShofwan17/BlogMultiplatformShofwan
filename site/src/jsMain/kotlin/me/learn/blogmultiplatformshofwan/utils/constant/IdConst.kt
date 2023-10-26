@@ -5,6 +5,8 @@ object IdConst {
     object InputType {
         const val username = "inputUsername"
         const val password = "inputPassword"
+        const val editor = "editor"
+        const val editorPreview = "editorPreview"
     }
 
     object ImageType {

@@ -9,6 +9,9 @@ import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.core.rememberPageContext
 import kotlinx.browser.localStorage
 import me.learn.blogmultiplatformshofwan.navigation.Screen
+import org.jetbrains.compose.web.css.CSSSizeValue
+import org.jetbrains.compose.web.css.CSSUnit
+import org.jetbrains.compose.web.css.px
 import org.w3c.dom.get
 import org.w3c.dom.set
 
@@ -31,7 +34,16 @@ fun isUserLoggedIn(content: @Composable () -> Unit) {
 
 }
 
-fun logout(){
+fun sizeBreakpoint(
+    condition: Boolean,
+    positive: Int = 0,
+    negative: Int = 0,
+): CSSSizeValue<CSSUnit.px> {
+    return if (condition) positive.px
+    else negative.px
+}
+
+fun logout() {
     localStorage["remember"] = false.toString()
     localStorage["userId"] = ""
     localStorage["username"] = ""

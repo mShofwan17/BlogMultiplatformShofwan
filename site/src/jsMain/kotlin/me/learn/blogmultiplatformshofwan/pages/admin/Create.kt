@@ -66,7 +66,10 @@ import me.learn.blogmultiplatformshofwan.styles.EditorKeyStyle
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
+import me.learn.blogmultiplatformshofwan.utils.sizeBreakpoint
 import me.learn.blogmultiplatformshofwan.utils.isUserLoggedIn
+import me.learn.blogmultiplatformshofwan.utils.largerThanMD
+import me.learn.blogmultiplatformshofwan.utils.smallerThanSM
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
@@ -103,7 +106,12 @@ fun CreateScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .margin(topBottom = 50.px)
-                .padding(left = if (breakpoint > Breakpoint.MD) SIDE_PANEL_WIDTH.px else 0.px),
+                .padding(
+                    left = sizeBreakpoint(
+                        condition = breakpoint.largerThanMD(),
+                        positive = SIDE_PANEL_WIDTH
+                    )
+                ),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -119,8 +127,14 @@ fun CreateScreen() {
                     Row(
                         modifier = Modifier
                             .margin(
-                                right = if (breakpoint < Breakpoint.SM) 0.px else 24.px,
-                                bottom = if (breakpoint < Breakpoint.SM) 12.px else 0.px
+                                right = sizeBreakpoint(
+                                    condition = breakpoint.smallerThanSM(),
+                                    negative = 24
+                                ),
+                                bottom = sizeBreakpoint(
+                                    condition = breakpoint.smallerThanSM(),
+                                    positive = 12
+                                )
                             ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -143,8 +157,14 @@ fun CreateScreen() {
                     Row(
                         modifier = Modifier
                             .margin(
-                                right = if (breakpoint < Breakpoint.SM) 0.px else 24.px,
-                                bottom = if (breakpoint < Breakpoint.SM) 12.px else 0.px
+                                right = sizeBreakpoint(
+                                    breakpoint.smallerThanSM(),
+                                    negative = 24
+                                ),
+                                bottom = sizeBreakpoint(
+                                    breakpoint.smallerThanSM(),
+                                    positive = 12
+                                )
                             ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -489,10 +509,15 @@ fun EditorControls(
                     attrs = Modifier
                         .height(54.px)
                         .thenIf(
-                            condition = breakpoint < Breakpoint.SM,
+                            condition = breakpoint.smallerThanSM(),
                             other = Modifier.fillMaxWidth()
                         )
-                        .margin(topBottom = if (breakpoint < Breakpoint.SM) 12.px else 0.px)
+                        .margin(
+                            topBottom = sizeBreakpoint(
+                                condition = breakpoint.smallerThanSM(),
+                                positive = 12
+                            )
+                        )
                         .padding(leftRight = 24.px)
                         .borderRadius(4.px)
                         .backgroundColor(

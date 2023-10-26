@@ -51,6 +51,8 @@ import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDT
 import me.learn.blogmultiplatformshofwan.utils.constant.ResConst
 import me.learn.blogmultiplatformshofwan.utils.fetchRandomJoke
 import me.learn.blogmultiplatformshofwan.utils.isUserLoggedIn
+import me.learn.blogmultiplatformshofwan.utils.largerThanMD
+import me.learn.blogmultiplatformshofwan.utils.sizeBreakpoint
 import org.jetbrains.compose.web.css.Position
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
@@ -89,7 +91,12 @@ fun HomeContent(randomJoke: RandomJoke?) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(left = if (breakpoint > Breakpoint.MD) SIDE_PANEL_WIDTH.px else 0.px),
+            .padding(
+                left = sizeBreakpoint(
+                    breakpoint.largerThanMD(),
+                    positive = SIDE_PANEL_WIDTH
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         randomJoke?.let {
@@ -169,11 +176,23 @@ fun AddButton() {
         Box(
             modifier = Modifier
                 .margin(
-                    right = if (breakpoint > Breakpoint.MD) 40.px else 20.px,
-                    bottom = if (breakpoint > Breakpoint.MD) 40.px else 20.px,
+                    right = sizeBreakpoint(
+                        condition = breakpoint.largerThanMD(),
+                        positive = 40,
+                        negative = 20
+                    ),
+                    bottom = sizeBreakpoint(
+                        condition = breakpoint.largerThanMD(),
+                        positive = 40,
+                        negative = 20
+                    ),
                 )
                 .size(
-                    if (breakpoint > Breakpoint.MD) 80.px else 40.px
+                    sizeBreakpoint(
+                        condition = breakpoint.largerThanMD(),
+                        positive = 80,
+                        negative = 40
+                    )
                 )
                 .backgroundColor(Theme.PrimaryColor.rgb)
                 .borderRadius(r = 14.px)

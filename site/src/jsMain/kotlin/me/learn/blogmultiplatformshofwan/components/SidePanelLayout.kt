@@ -72,7 +72,6 @@ fun SidelPanel(onMenuClick: () -> Unit) {
     val breakpoint = rememberBreakpoint()
     if (breakpoint > Breakpoint.MD) SidePanelInternal()
     else CollapsedSidePanel { onMenuClick.invoke() }
-
 }
 
 @Composable

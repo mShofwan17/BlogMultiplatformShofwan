@@ -7,6 +7,7 @@ sealed class Screen(val route: String){
         data object Home: Screen("/admin/")
         data object Create: Screen("/admin/create")
         data object Posts: Screen("/admin/posts")
+        data object Success: Screen("/admin/success")
     }
 
 }

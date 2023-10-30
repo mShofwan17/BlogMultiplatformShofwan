@@ -47,6 +47,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.visibility
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.core.Page
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.silk.components.forms.Switch
 import com.varabyte.kobweb.silk.components.forms.SwitchSize
 import com.varabyte.kobweb.silk.components.graphics.Image
@@ -66,6 +67,7 @@ import me.learn.blogmultiplatformshofwan.models.Category
 import me.learn.blogmultiplatformshofwan.models.EditorKey
 import me.learn.blogmultiplatformshofwan.models.Post
 import me.learn.blogmultiplatformshofwan.models.Theme
+import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.EditorKeyStyle
 import me.learn.blogmultiplatformshofwan.utils.addPost
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
@@ -117,6 +119,7 @@ fun CreatePage() {
 @Composable
 fun CreateScreen() {
     val breakpoint = rememberBreakpoint()
+    val context = rememberPageContext()
     var uiState by remember {
         mutableStateOf(
             CreatePageUiState()
@@ -351,7 +354,7 @@ fun CreateScreen() {
 
                                 post?.let {
                                     val result = addPost(it)
-                                    if (result) println("Success")
+                                    if (result)  context.router.navigateTo(Screen.Admin.Success.route)
                                 }
 
                             } else {

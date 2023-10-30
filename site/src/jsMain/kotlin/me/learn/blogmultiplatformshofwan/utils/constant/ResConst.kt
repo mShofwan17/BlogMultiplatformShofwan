@@ -15,6 +15,7 @@ object ResConst {
         const val quote = "/quote.svg"
         const val subtitle = "/subtitle.svg"
         const val title = "/title.svg"
+        const val success = "/success.svg"
     }
 
     object PathIcon {

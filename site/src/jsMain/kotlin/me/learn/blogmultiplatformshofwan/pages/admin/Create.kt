@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.Cursor
 import com.varabyte.kobweb.compose.css.FontWeight
@@ -56,11 +57,15 @@ import com.varabyte.kobweb.silk.components.style.toModifier
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
+import kotlinx.browser.localStorage
+import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
 import me.learn.blogmultiplatformshofwan.models.Category
 import me.learn.blogmultiplatformshofwan.models.EditorKey
+import me.learn.blogmultiplatformshofwan.models.Post
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.styles.EditorKeyStyle
+import me.learn.blogmultiplatformshofwan.utils.addPost
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
@@ -79,6 +84,10 @@ import org.jetbrains.compose.web.dom.Li
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextArea
 import org.jetbrains.compose.web.dom.Ul
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.HTMLTextAreaElement
+import org.w3c.dom.get
+import kotlin.js.Date
 
 data class CreatePageUiEvent(
     var id: String = "",
@@ -110,6 +119,7 @@ fun CreateScreen() {
             CreatePageUiEvent()
         )
     }
+    val scope = rememberCoroutineScope()
 
     AdminPageLayout {
         Box(
@@ -217,6 +227,7 @@ fun CreateScreen() {
                 Input(
                     type = InputType.Text,
                     attrs = Modifier
+                        .id(IdConst.InputType.title)
                         .fillMaxWidth()
                         .height(54.px)
                         .margin(topBottom = 12.px)
@@ -235,6 +246,7 @@ fun CreateScreen() {
                 Input(
                     type = InputType.Text,
                     attrs = Modifier
+                        .id(IdConst.InputType.subtitle)
                         .fillMaxWidth()
                         .height(54.px)
                         .margin(bottom = 12.px)
@@ -282,9 +294,10 @@ fun CreateScreen() {
                 ThumbnailUploader(
                     thumbnail = uiEvent.thumbnail,
                     thumbnailInputDisabled = uiEvent.thumbnailInputDisabled,
-                    onThumbnailSelect = { filename, _ ->
-                        println(filename)
-                        uiEvent = uiEvent.copy(thumbnail = filename)
+                    onThumbnailSelect = { filename, file ->
+                        (document.getElementById(IdConst.InputType.thumbnail) as HTMLInputElement).value =
+                            filename
+                        uiEvent = uiEvent.copy(thumbnail = file)
                     }
                 )
 
@@ -298,7 +311,50 @@ fun CreateScreen() {
                 Editor(editorVisibility = uiEvent.editorVisibility)
                 CreateButton(
                     onCreateClicked = {
+                        scope.launch {
 
+                            uiEvent =
+                                uiEvent.copy(title = (document.getElementById(IdConst.InputType.title) as HTMLInputElement).value)
+                            uiEvent =
+                                uiEvent.copy(subtitle = (document.getElementById(IdConst.InputType.subtitle) as HTMLInputElement).value)
+                            uiEvent =
+                                uiEvent.copy(content = (document.getElementById(IdConst.InputType.editor) as HTMLTextAreaElement).value)
+
+                            if (!uiEvent.thumbnailInputDisabled) {
+                                uiEvent =
+                                    uiEvent.copy(content = (document.getElementById(IdConst.InputType.thumbnail) as HTMLInputElement).value)
+                            }
+
+                            if (
+                                uiEvent.title.isNotEmpty() &&
+                                uiEvent.subtitle.isNotEmpty() &&
+                                uiEvent.thumbnail.isNotEmpty() &&
+                                uiEvent.content.isNotEmpty()
+                            ) {
+                                val post = localStorage["username"]?.let { author ->
+                                    Post(
+                                        authorName = author,
+                                        title = uiEvent.title,
+                                        subtitle = uiEvent.subtitle,
+                                        date = Date.now().toLong(),
+                                        thumbnail = uiEvent.thumbnail,
+                                        detail = uiEvent.content,
+                                        category = uiEvent.category,
+                                        popular = uiEvent.popular,
+                                        main = uiEvent.main,
+                                        sponsored = uiEvent.sponsored
+                                    )
+                                }
+
+                                post?.let {
+                                    val result = addPost(it)
+                                    if (result) println("Success")
+                                }
+
+                            } else {
+                                println("Please fill out all fields")
+                            }
+                        }
                     }
                 )
             }
@@ -384,6 +440,7 @@ fun ThumbnailUploader(
         Input(
             type = InputType.Text,
             attrs = Modifier
+                .id(IdConst.InputType.thumbnail)
                 .fillMaxSize()
                 .margin(bottom = 12.px, right = 12.px)
                 .padding(leftRight = 20.px)

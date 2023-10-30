@@ -7,6 +7,10 @@ object IdConst {
         const val password = "inputPassword"
         const val editor = "editor"
         const val editorPreview = "editorPreview"
+        const val title = "title"
+        const val subtitle = "subtitle"
+        const val thumbnail = "thumbnail"
+        const val content = "subtitle"
     }
 
     object ImageType {

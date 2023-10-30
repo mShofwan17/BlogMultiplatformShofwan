@@ -80,6 +80,20 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextArea
 import org.jetbrains.compose.web.dom.Ul
 
+data class CreatePageUiEvent(
+    var id: String = "",
+    var title: String = "",
+    var subtitle: String = "",
+    var thumbnail: String = "",
+    var thumbnailInputDisabled: Boolean = true,
+    var content: String = "",
+    var category: Category = Category.Programming,
+    var main: Boolean = false,
+    var popular: Boolean = false,
+    var sponsored: Boolean = false,
+    var editorVisibility: Boolean = true,
+)
+
 @Page
 @Composable
 fun CreatePage() {
@@ -91,13 +105,11 @@ fun CreatePage() {
 @Composable
 fun CreateScreen() {
     val breakpoint = rememberBreakpoint()
-    var popularSwitch by remember { mutableStateOf(false) }
-    var mainSwitch by remember { mutableStateOf(false) }
-    var sponsored by remember { mutableStateOf(false) }
-    var selectedCategory by remember { mutableStateOf(Category.Programming) }
-    var thumbnailInputDisabled by remember { mutableStateOf(true) }
-    var fileName by remember { mutableStateOf("") }
-    var editorVisibility by remember { mutableStateOf(true) }
+    var uiEvent by remember {
+        mutableStateOf(
+            CreatePageUiEvent()
+        )
+    }
 
     AdminPageLayout {
         Box(
@@ -139,8 +151,8 @@ fun CreateScreen() {
                         Switch(
                             modifier = Modifier
                                 .margin(right = 8.px),
-                            checked = popularSwitch,
-                            onCheckedChange = { popularSwitch = it },
+                            checked = uiEvent.popular,
+                            onCheckedChange = { uiEvent = uiEvent.copy(popular = it) },
                             size = SwitchSize.LG
                         )
                         SpanText(
@@ -169,8 +181,8 @@ fun CreateScreen() {
                         Switch(
                             modifier = Modifier
                                 .margin(right = 8.px),
-                            checked = mainSwitch,
-                            onCheckedChange = { mainSwitch = it },
+                            checked = uiEvent.main,
+                            onCheckedChange = { uiEvent = uiEvent.copy(main = it) },
                             size = SwitchSize.LG
                         )
                         SpanText(
@@ -188,8 +200,8 @@ fun CreateScreen() {
                         Switch(
                             modifier = Modifier
                                 .margin(right = 8.px),
-                            checked = sponsored,
-                            onCheckedChange = { sponsored = it },
+                            checked = uiEvent.sponsored,
+                            onCheckedChange = { uiEvent = uiEvent.copy(sponsored = it) },
                             size = SwitchSize.LG
                         )
                         SpanText(
@@ -238,9 +250,9 @@ fun CreateScreen() {
                 )
 
                 CategoryDropdown(
-                    selectedCategory = selectedCategory,
+                    selectedCategory = uiEvent.category,
                     onCategorySelect = {
-                        selectedCategory = it
+                        uiEvent = uiEvent.copy(category = it)
                     }
                 )
 
@@ -254,8 +266,8 @@ fun CreateScreen() {
                     Switch(
                         modifier = Modifier
                             .margin(right = 8.px),
-                        checked = !thumbnailInputDisabled,
-                        onCheckedChange = { thumbnailInputDisabled = !it },
+                        checked = !uiEvent.thumbnailInputDisabled,
+                        onCheckedChange = { uiEvent = uiEvent.copy(thumbnailInputDisabled = !it) },
                         size = SwitchSize.MD
                     )
                     SpanText(
@@ -268,22 +280,22 @@ fun CreateScreen() {
                 }
 
                 ThumbnailUploader(
-                    thumbnail = fileName,
-                    thumbnailInputDisabled = thumbnailInputDisabled,
+                    thumbnail = uiEvent.thumbnail,
+                    thumbnailInputDisabled = uiEvent.thumbnailInputDisabled,
                     onThumbnailSelect = { filename, _ ->
                         println(filename)
-                        fileName = filename
+                        uiEvent = uiEvent.copy(thumbnail = filename)
                     }
                 )
 
                 EditorControls(
                     breakpoint = breakpoint,
-                    editorVisibility = editorVisibility,
+                    editorVisibility = uiEvent.editorVisibility,
                     onEditorVisibilityChange = {
-                        editorVisibility = !editorVisibility
+                        uiEvent = uiEvent.copy(editorVisibility = !uiEvent.editorVisibility)
                     }
                 )
-                Editor(editorVisibility = editorVisibility)
+                Editor(editorVisibility = uiEvent.editorVisibility)
                 CreateButton(
                     onCreateClicked = {
 
@@ -563,7 +575,7 @@ fun Editor(
 
 @Composable
 fun CreateButton(
-    onCreateClicked : () -> Unit
+    onCreateClicked: () -> Unit
 ) {
     Button(
         attrs = Modifier

@@ -58,8 +58,10 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import kotlinx.browser.document
 import kotlinx.browser.localStorage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
+import me.learn.blogmultiplatformshofwan.components.MessagePopUp
 import me.learn.blogmultiplatformshofwan.models.Category
 import me.learn.blogmultiplatformshofwan.models.EditorKey
 import me.learn.blogmultiplatformshofwan.models.Post
@@ -89,7 +91,7 @@ import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.get
 import kotlin.js.Date
 
-data class CreatePageUiEvent(
+data class CreatePageUiState(
     var id: String = "",
     var title: String = "",
     var subtitle: String = "",
@@ -101,6 +103,7 @@ data class CreatePageUiEvent(
     var popular: Boolean = false,
     var sponsored: Boolean = false,
     var editorVisibility: Boolean = true,
+    var messagePopup: Boolean = false
 )
 
 @Page
@@ -114,9 +117,9 @@ fun CreatePage() {
 @Composable
 fun CreateScreen() {
     val breakpoint = rememberBreakpoint()
-    var uiEvent by remember {
+    var uiState by remember {
         mutableStateOf(
-            CreatePageUiEvent()
+            CreatePageUiState()
         )
     }
     val scope = rememberCoroutineScope()
@@ -161,8 +164,8 @@ fun CreateScreen() {
                         Switch(
                             modifier = Modifier
                                 .margin(right = 8.px),
-                            checked = uiEvent.popular,
-                            onCheckedChange = { uiEvent = uiEvent.copy(popular = it) },
+                            checked = uiState.popular,
+                            onCheckedChange = { uiState = uiState.copy(popular = it) },
                             size = SwitchSize.LG
                         )
                         SpanText(
@@ -191,8 +194,8 @@ fun CreateScreen() {
                         Switch(
                             modifier = Modifier
                                 .margin(right = 8.px),
-                            checked = uiEvent.main,
-                            onCheckedChange = { uiEvent = uiEvent.copy(main = it) },
+                            checked = uiState.main,
+                            onCheckedChange = { uiState = uiState.copy(main = it) },
                             size = SwitchSize.LG
                         )
                         SpanText(
@@ -210,8 +213,8 @@ fun CreateScreen() {
                         Switch(
                             modifier = Modifier
                                 .margin(right = 8.px),
-                            checked = uiEvent.sponsored,
-                            onCheckedChange = { uiEvent = uiEvent.copy(sponsored = it) },
+                            checked = uiState.sponsored,
+                            onCheckedChange = { uiState = uiState.copy(sponsored = it) },
                             size = SwitchSize.LG
                         )
                         SpanText(
@@ -262,9 +265,9 @@ fun CreateScreen() {
                 )
 
                 CategoryDropdown(
-                    selectedCategory = uiEvent.category,
+                    selectedCategory = uiState.category,
                     onCategorySelect = {
-                        uiEvent = uiEvent.copy(category = it)
+                        uiState = uiState.copy(category = it)
                     }
                 )
 
@@ -278,8 +281,8 @@ fun CreateScreen() {
                     Switch(
                         modifier = Modifier
                             .margin(right = 8.px),
-                        checked = !uiEvent.thumbnailInputDisabled,
-                        onCheckedChange = { uiEvent = uiEvent.copy(thumbnailInputDisabled = !it) },
+                        checked = !uiState.thumbnailInputDisabled,
+                        onCheckedChange = { uiState = uiState.copy(thumbnailInputDisabled = !it) },
                         size = SwitchSize.MD
                     )
                     SpanText(
@@ -292,57 +295,57 @@ fun CreateScreen() {
                 }
 
                 ThumbnailUploader(
-                    thumbnail = uiEvent.thumbnail,
-                    thumbnailInputDisabled = uiEvent.thumbnailInputDisabled,
+                    thumbnail = uiState.thumbnail,
+                    thumbnailInputDisabled = uiState.thumbnailInputDisabled,
                     onThumbnailSelect = { filename, file ->
                         (document.getElementById(IdConst.InputType.thumbnail) as HTMLInputElement).value =
                             filename
-                        uiEvent = uiEvent.copy(thumbnail = file)
+                        uiState = uiState.copy(thumbnail = file)
                     }
                 )
 
                 EditorControls(
                     breakpoint = breakpoint,
-                    editorVisibility = uiEvent.editorVisibility,
+                    editorVisibility = uiState.editorVisibility,
                     onEditorVisibilityChange = {
-                        uiEvent = uiEvent.copy(editorVisibility = !uiEvent.editorVisibility)
+                        uiState = uiState.copy(editorVisibility = !uiState.editorVisibility)
                     }
                 )
-                Editor(editorVisibility = uiEvent.editorVisibility)
+                Editor(editorVisibility = uiState.editorVisibility)
                 CreateButton(
                     onCreateClicked = {
                         scope.launch {
 
-                            uiEvent =
-                                uiEvent.copy(title = (document.getElementById(IdConst.InputType.title) as HTMLInputElement).value)
-                            uiEvent =
-                                uiEvent.copy(subtitle = (document.getElementById(IdConst.InputType.subtitle) as HTMLInputElement).value)
-                            uiEvent =
-                                uiEvent.copy(content = (document.getElementById(IdConst.InputType.editor) as HTMLTextAreaElement).value)
+                            uiState =
+                                uiState.copy(title = (document.getElementById(IdConst.InputType.title) as HTMLInputElement).value)
+                            uiState =
+                                uiState.copy(subtitle = (document.getElementById(IdConst.InputType.subtitle) as HTMLInputElement).value)
+                            uiState =
+                                uiState.copy(content = (document.getElementById(IdConst.InputType.editor) as HTMLTextAreaElement).value)
 
-                            if (!uiEvent.thumbnailInputDisabled) {
-                                uiEvent =
-                                    uiEvent.copy(content = (document.getElementById(IdConst.InputType.thumbnail) as HTMLInputElement).value)
+                            if (!uiState.thumbnailInputDisabled) {
+                                uiState =
+                                    uiState.copy(content = (document.getElementById(IdConst.InputType.thumbnail) as HTMLInputElement).value)
                             }
 
                             if (
-                                uiEvent.title.isNotEmpty() &&
-                                uiEvent.subtitle.isNotEmpty() &&
-                                uiEvent.thumbnail.isNotEmpty() &&
-                                uiEvent.content.isNotEmpty()
+                                uiState.title.isNotEmpty() &&
+                                uiState.subtitle.isNotEmpty() &&
+                                uiState.thumbnail.isNotEmpty() &&
+                                uiState.content.isNotEmpty()
                             ) {
                                 val post = localStorage["username"]?.let { author ->
                                     Post(
                                         authorName = author,
-                                        title = uiEvent.title,
-                                        subtitle = uiEvent.subtitle,
+                                        title = uiState.title,
+                                        subtitle = uiState.subtitle,
                                         date = Date.now().toLong(),
-                                        thumbnail = uiEvent.thumbnail,
-                                        detail = uiEvent.content,
-                                        category = uiEvent.category,
-                                        popular = uiEvent.popular,
-                                        main = uiEvent.main,
-                                        sponsored = uiEvent.sponsored
+                                        thumbnail = uiState.thumbnail,
+                                        detail = uiState.content,
+                                        category = uiState.category,
+                                        popular = uiState.popular,
+                                        main = uiState.main,
+                                        sponsored = uiState.sponsored
                                     )
                                 }
 
@@ -352,13 +355,22 @@ fun CreateScreen() {
                                 }
 
                             } else {
-                                println("Please fill out all fields")
+                                uiState = uiState.copy(messagePopup = true)
+                                delay(2000)
+                                uiState = uiState.copy(messagePopup = false)
                             }
                         }
                     }
                 )
             }
         }
+    }
+
+    if (uiState.messagePopup) {
+        MessagePopUp(
+            message = "Please fill out all fields.",
+            onDialogDismiss = { uiState = uiState.copy(messagePopup = false) }
+        )
     }
 }
 

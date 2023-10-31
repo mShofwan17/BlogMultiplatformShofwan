@@ -64,15 +64,20 @@ import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
 import me.learn.blogmultiplatformshofwan.components.MessagePopUp
 import me.learn.blogmultiplatformshofwan.models.Category
+import me.learn.blogmultiplatformshofwan.models.ControlStyle
 import me.learn.blogmultiplatformshofwan.models.EditorControl
 import me.learn.blogmultiplatformshofwan.models.Post
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.styles.EditorKeyStyle
 import me.learn.blogmultiplatformshofwan.utils.addPost
+import me.learn.blogmultiplatformshofwan.utils.applyControlStyle
+import me.learn.blogmultiplatformshofwan.utils.applyStyle
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.SIDE_PANEL_WIDTH
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
+import me.learn.blogmultiplatformshofwan.utils.getEditor
+import me.learn.blogmultiplatformshofwan.utils.getSelectedText
 import me.learn.blogmultiplatformshofwan.utils.isUserLoggedIn
 import me.learn.blogmultiplatformshofwan.utils.largerThanMD
 import me.learn.blogmultiplatformshofwan.utils.noBorder
@@ -318,7 +323,6 @@ fun CreateScreen() {
                 CreateButton(
                     onCreateClicked = {
                         scope.launch {
-
                             uiState =
                                 uiState.copy(title = (document.getElementById(IdConst.InputType.title) as HTMLInputElement).value)
                             uiState =
@@ -354,7 +358,7 @@ fun CreateScreen() {
 
                                 post?.let {
                                     val result = addPost(it)
-                                    if (result)  context.router.navigateTo(Screen.Admin.Success.route)
+                                    if (result) context.router.navigateTo(Screen.Admin.Success.route)
                                 }
 
                             } else {
@@ -523,7 +527,12 @@ fun EditorControls(
                     .backgroundColor(Theme.LightGreyColor.rgb)
             ) {
                 EditorControl.values().forEach {
-                    EditorControlView(it)
+                    EditorControlView(
+                        it,
+                        onClick = {
+                            applyControlStyle(it)
+                        }
+                    )
                 }
             }
 
@@ -557,6 +566,8 @@ fun EditorControls(
                         .noBorder()
                         .onClick {
                             onEditorVisibilityChange()
+                            document.getElementById(IdConst.InputType.editorPreview)?.innerHTML = getEditor().value
+                            js("hljs.highlightAll()") as Unit
                         }
                         .toAttrs()
                 ) {
@@ -574,14 +585,17 @@ fun EditorControls(
 
 
 @Composable
-fun EditorControlView(key: EditorControl) {
+fun EditorControlView(
+    key: EditorControl,
+    onClick: () -> Unit
+) {
     Box(
         modifier = EditorKeyStyle.toModifier()
             .fillMaxHeight()
             .padding(leftRight = 12.px)
             .borderRadius(r = 4.px)
             .cursor(Cursor.Pointer)
-            .onClick { },
+            .onClick { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -592,59 +606,51 @@ fun EditorControlView(key: EditorControl) {
 }
 
 @Composable
-fun Editor(
-    editorVisibility: Boolean
-) {
-    Box(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+fun Editor(editorVisibility: Boolean) {
+    Box(modifier = Modifier.fillMaxWidth()) {
         TextArea(
             attrs = Modifier
-                .fontFamily(FONT_ARIAL_FAMILY)
-                .fontSize(16.px)
                 .id(IdConst.InputType.editor)
                 .fillMaxWidth()
                 .height(400.px)
                 .maxHeight(400.px)
-                .margin(topBottom = 8.px)
+                .resize(Resize.None)
+                .margin(top = 8.px)
                 .padding(all = 20.px)
                 .backgroundColor(Theme.LightGreyColor.rgb)
-                .borderRadius(4.px)
-                .resize(Resize.None)
+                .borderRadius(r = 4.px)
                 .noBorder()
                 .visibility(
-                    if (editorVisibility) Visibility.Visible else Visibility.Hidden
+                    if (editorVisibility) Visibility.Visible
+                    else Visibility.Hidden
                 )
+                .fontFamily(FONT_ARIAL_FAMILY)
+                .fontSize(16.px)
                 .toAttrs {
-                    attr("placeholder", "Type here....")
+                    attr("placeholder", "Type here...")
                 }
         )
         Div(
             attrs = Modifier
                 .id(IdConst.InputType.editorPreview)
-                .fontFamily(FONT_ARIAL_FAMILY)
-                .fontSize(16.px)
                 .fillMaxWidth()
                 .height(400.px)
                 .maxHeight(400.px)
-                .margin(topBottom = 8.px)
+                .margin(top = 8.px)
                 .padding(all = 20.px)
                 .backgroundColor(Theme.LightGreyColor.rgb)
-                .borderRadius(4.px)
-                .resize(Resize.None)
-                .noBorder()
+                .borderRadius(r = 4.px)
                 .visibility(
-                    if (editorVisibility) Visibility.Hidden else Visibility.Visible
+                    if (editorVisibility) Visibility.Hidden
+                    else Visibility.Visible
                 )
                 .overflow(Overflow.Auto)
                 .scrollBehavior(ScrollBehavior.Smooth)
+                .noBorder()
                 .toAttrs()
-        ) {
-
-        }
+        )
     }
 }
-
 @Composable
 fun CreateButton(
     onCreateClicked: () -> Unit

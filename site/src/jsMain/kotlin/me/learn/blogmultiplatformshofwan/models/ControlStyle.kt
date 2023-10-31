@@ -1,27 +1,27 @@
 package me.learn.blogmultiplatformshofwan.models
 
 sealed class ControlStyle(val style: String) {
-    data class Bold(val selectedText: String) : ControlStyle(
+    data class Bold(val selectedText: String?) : ControlStyle(
         style = "<strong>$selectedText</strong>"
     )
 
-    data class Italic(val selectedText: String) : ControlStyle(
+    data class Italic(val selectedText: String?) : ControlStyle(
         style = "<em>$selectedText</em>"
     )
 
     data class Link(
-        val selectedText: String,
+        val selectedText: String?,
         val href: String,
         val title: String
     ) : ControlStyle(
         style = "<a href\"$href\" title=\"$title\">$selectedText</a>"
     )
 
-    data class Title(val selectedText: String) : ControlStyle(
+    data class Title(val selectedText: String?) : ControlStyle(
         style = "<strong><h1>$selectedText</h1></strong>"
     )
 
-    data class Subtitle(val selectedText: String) : ControlStyle(
+    data class Subtitle(val selectedText: String?) : ControlStyle(
         style = "<strong><h3>$selectedText</h3></strong>"
     )
 

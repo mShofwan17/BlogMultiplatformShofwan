@@ -64,7 +64,7 @@ import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
 import me.learn.blogmultiplatformshofwan.components.MessagePopUp
 import me.learn.blogmultiplatformshofwan.models.Category
-import me.learn.blogmultiplatformshofwan.models.EditorKey
+import me.learn.blogmultiplatformshofwan.models.EditorControl
 import me.learn.blogmultiplatformshofwan.models.Post
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.navigation.Screen
@@ -522,8 +522,8 @@ fun EditorControls(
                     .height(54.px)
                     .backgroundColor(Theme.LightGreyColor.rgb)
             ) {
-                EditorKey.values().forEach {
-                    EditorKeyView(it)
+                EditorControl.values().forEach {
+                    EditorControlView(it)
                 }
             }
 
@@ -574,7 +574,7 @@ fun EditorControls(
 
 
 @Composable
-fun EditorKeyView(key: EditorKey) {
+fun EditorControlView(key: EditorControl) {
     Box(
         modifier = EditorKeyStyle.toModifier()
             .fillMaxHeight()

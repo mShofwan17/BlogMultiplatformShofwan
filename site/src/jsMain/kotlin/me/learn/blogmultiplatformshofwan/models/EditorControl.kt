@@ -2,7 +2,7 @@ package me.learn.blogmultiplatformshofwan.models
 
 import me.learn.blogmultiplatformshofwan.utils.constant.ResConst
 
-enum class EditorKey(
+enum class EditorControl(
     val icon: String
 ) {
     Bold(ResConst.Icon.bold),

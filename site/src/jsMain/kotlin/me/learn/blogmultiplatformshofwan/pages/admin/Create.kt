@@ -39,6 +39,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.maxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.maxWidth
 import com.varabyte.kobweb.compose.ui.modifiers.onClick
+import com.varabyte.kobweb.compose.ui.modifiers.onKeyDown
 import com.varabyte.kobweb.compose.ui.modifiers.overflow
 import com.varabyte.kobweb.compose.ui.modifiers.padding
 import com.varabyte.kobweb.compose.ui.modifiers.resize
@@ -561,7 +562,7 @@ fun EditorControls(
     breakpoint: Breakpoint,
     editorVisibility: Boolean,
     onLinkClick: () -> Unit,
-    onImageClick:() -> Unit,
+    onImageClick: () -> Unit,
     onEditorVisibilityChange: () -> Unit
 ) {
     Box(
@@ -679,6 +680,15 @@ fun Editor(editorVisibility: Boolean) {
                     if (editorVisibility) Visibility.Visible
                     else Visibility.Hidden
                 )
+                .onKeyDown {
+                    if (it.code == "Enter" && it.shiftKey) {
+                        applyStyle(
+                            ControlStyle.Break(
+                                getSelectedText()
+                            )
+                        )
+                    }
+                }
                 .fontFamily(FONT_ARIAL_FAMILY)
                 .fontSize(16.px)
                 .toAttrs {

@@ -18,11 +18,11 @@ sealed class ControlStyle(val style: String) {
     )
 
     data class Title(val selectedText: String?) : ControlStyle(
-        style = "<strong><h1>$selectedText</h1></strong>"
+        style = "<h1><strong>$selectedText</strong></h1>"
     )
 
     data class Subtitle(val selectedText: String?) : ControlStyle(
-        style = "<strong><h3>$selectedText</h3></strong>"
+        style = "<h3>$selectedText</h3>"
     )
 
     data class Quote(val selectedText: String?) : ControlStyle(
@@ -30,7 +30,7 @@ sealed class ControlStyle(val style: String) {
     )
 
     data class Code(val selectedText: String?) : ControlStyle(
-        style = "<div style=\"background-color:#0d1117;padding:12px;border-radius:6px;\"><pre><code class=\"language-kotlin\"> $selectedText </code></pre></div>"
+        style = "<div style=\"background-color:#0d1117;padding:12px;border-radius:6px;\"><pre><code class=\"language-kotlin\">$selectedText</code></pre></div>"
     )
 
     data class Image(
@@ -39,5 +39,11 @@ sealed class ControlStyle(val style: String) {
         val desc: String
     ) : ControlStyle(
         style = "<img src=\"$imageUrl\" alt=\"$desc\" style=\"max-width: 100%\">$selectedText</img>"
+    )
+
+    data class Break(
+       val selectedText: String?
+    ): ControlStyle(
+        style = "$selectedText<br>"
     )
 }

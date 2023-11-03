@@ -62,7 +62,8 @@ import kotlinx.browser.localStorage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
-import me.learn.blogmultiplatformshofwan.components.MessagePopUp
+import me.learn.blogmultiplatformshofwan.components.LinkPopup
+import me.learn.blogmultiplatformshofwan.components.Popup
 import me.learn.blogmultiplatformshofwan.models.Category
 import me.learn.blogmultiplatformshofwan.models.ControlStyle
 import me.learn.blogmultiplatformshofwan.models.EditorControl
@@ -110,7 +111,8 @@ data class CreatePageUiState(
     var popular: Boolean = false,
     var sponsored: Boolean = false,
     var editorVisibility: Boolean = true,
-    var messagePopup: Boolean = false
+    var messagePopup: Boolean = false,
+    var linkPopUp: Boolean = false
 )
 
 @Page
@@ -315,6 +317,11 @@ fun CreateScreen() {
                 EditorControls(
                     breakpoint = breakpoint,
                     editorVisibility = uiState.editorVisibility,
+                    onLinkClick = {
+                        uiState = uiState.copy(
+                            linkPopUp = true
+                        )
+                    },
                     onEditorVisibilityChange = {
                         uiState = uiState.copy(editorVisibility = !uiState.editorVisibility)
                     }
@@ -374,11 +381,29 @@ fun CreateScreen() {
     }
 
     if (uiState.messagePopup) {
-        MessagePopUp(
+        Popup(
             message = "Please fill out all fields.",
             onDialogDismiss = { uiState = uiState.copy(messagePopup = false) }
         )
     }
+
+    if (uiState.linkPopUp) {
+        LinkPopup(
+            onDialogDismiss = {
+                uiState = uiState.copy(linkPopUp = false)
+            },
+            onLinkAdded = { href, title ->
+                applyStyle(
+                    ControlStyle.Link(
+                        selectedText = getSelectedText(),
+                        href = href,
+                        title = title
+                    )
+                )
+            }
+        )
+    }
+
 }
 
 @Composable
@@ -512,6 +537,7 @@ fun ThumbnailUploader(
 fun EditorControls(
     breakpoint: Breakpoint,
     editorVisibility: Boolean,
+    onLinkClick: () -> Unit,
     onEditorVisibilityChange: () -> Unit
 ) {
     Box(
@@ -530,7 +556,10 @@ fun EditorControls(
                     EditorControlView(
                         it,
                         onClick = {
-                            applyControlStyle(it)
+                            applyControlStyle(
+                                editorControl = it,
+                                onLinkClick = onLinkClick
+                            )
                         }
                     )
                 }
@@ -566,7 +595,8 @@ fun EditorControls(
                         .noBorder()
                         .onClick {
                             onEditorVisibilityChange()
-                            document.getElementById(IdConst.InputType.editorPreview)?.innerHTML = getEditor().value
+                            document.getElementById(IdConst.InputType.editorPreview)?.innerHTML =
+                                getEditor().value
                             js("hljs.highlightAll()") as Unit
                         }
                         .toAttrs()
@@ -651,6 +681,7 @@ fun Editor(editorVisibility: Boolean) {
         )
     }
 }
+
 @Composable
 fun CreateButton(
     onCreateClicked: () -> Unit

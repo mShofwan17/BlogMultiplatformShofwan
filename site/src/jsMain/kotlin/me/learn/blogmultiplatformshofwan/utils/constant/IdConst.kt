@@ -11,6 +11,9 @@ object IdConst {
         const val subtitle = "subtitle"
         const val thumbnail = "thumbnail"
         const val content = "subtitle"
+
+        const val linkHref = "linkHref"
+        const val linkTitle = "linkTitle"
     }
 
     object ImageType {

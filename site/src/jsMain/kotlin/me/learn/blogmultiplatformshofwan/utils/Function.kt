@@ -86,8 +86,11 @@ fun applyStyle(controlStyle: ControlStyle) {
     }
 }
 
-fun applyControlStyle(editorControl: EditorControl){
-    when(editorControl){
+fun applyControlStyle(
+    editorControl: EditorControl,
+    onLinkClick: () -> Unit,
+) {
+    when (editorControl) {
         EditorControl.Bold -> {
             applyStyle(
                 ControlStyle.Bold(
@@ -95,6 +98,7 @@ fun applyControlStyle(editorControl: EditorControl){
                 )
             )
         }
+
         EditorControl.Italic -> {
             applyStyle(
                 ControlStyle.Italic(
@@ -102,6 +106,7 @@ fun applyControlStyle(editorControl: EditorControl){
                 )
             )
         }
+
         EditorControl.Quote -> {
             applyStyle(
                 ControlStyle.Quote(
@@ -109,6 +114,7 @@ fun applyControlStyle(editorControl: EditorControl){
                 )
             )
         }
+
         EditorControl.Subtitle -> {
             applyStyle(
                 ControlStyle.Subtitle(
@@ -116,6 +122,7 @@ fun applyControlStyle(editorControl: EditorControl){
                 )
             )
         }
+
         EditorControl.Title -> {
             applyStyle(
                 ControlStyle.Title(
@@ -123,12 +130,15 @@ fun applyControlStyle(editorControl: EditorControl){
                 )
             )
         }
-        EditorControl.Link -> {
 
+        EditorControl.Link -> {
+            onLinkClick()
         }
+
         EditorControl.Photograph -> {
 
         }
+
         EditorControl.Code -> {
 
         }

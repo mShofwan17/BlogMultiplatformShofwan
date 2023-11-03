@@ -62,7 +62,7 @@ import kotlinx.browser.localStorage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.learn.blogmultiplatformshofwan.components.AdminPageLayout
-import me.learn.blogmultiplatformshofwan.components.LinkPopup
+import me.learn.blogmultiplatformshofwan.components.ControlPopUp
 import me.learn.blogmultiplatformshofwan.components.Popup
 import me.learn.blogmultiplatformshofwan.models.Category
 import me.learn.blogmultiplatformshofwan.models.ControlStyle
@@ -112,7 +112,8 @@ data class CreatePageUiState(
     var sponsored: Boolean = false,
     var editorVisibility: Boolean = true,
     var messagePopup: Boolean = false,
-    var linkPopUp: Boolean = false
+    var linkPopUp: Boolean = false,
+    var imagePopUp: Boolean = false
 )
 
 @Page
@@ -324,6 +325,9 @@ fun CreateScreen() {
                     },
                     onEditorVisibilityChange = {
                         uiState = uiState.copy(editorVisibility = !uiState.editorVisibility)
+                    },
+                    onImageClick = {
+                        uiState = uiState.copy(imagePopUp = true)
                     }
                 )
                 Editor(editorVisibility = uiState.editorVisibility)
@@ -388,16 +392,35 @@ fun CreateScreen() {
     }
 
     if (uiState.linkPopUp) {
-        LinkPopup(
+        ControlPopUp(
+            editorControl = EditorControl.Link,
             onDialogDismiss = {
                 uiState = uiState.copy(linkPopUp = false)
             },
-            onLinkAdded = { href, title ->
+            onAddClick = { href, title ->
                 applyStyle(
                     ControlStyle.Link(
                         selectedText = getSelectedText(),
                         href = href,
                         title = title
+                    )
+                )
+            }
+        )
+    }
+
+    if (uiState.imagePopUp) {
+        ControlPopUp(
+            editorControl = EditorControl.Photograph,
+            onDialogDismiss = {
+                uiState = uiState.copy(imagePopUp = false)
+            },
+            onAddClick = { imageUrl, description ->
+                applyStyle(
+                    ControlStyle.Image(
+                        selectedText = getSelectedText(),
+                        imageUrl = imageUrl,
+                        desc = description
                     )
                 )
             }
@@ -538,6 +561,7 @@ fun EditorControls(
     breakpoint: Breakpoint,
     editorVisibility: Boolean,
     onLinkClick: () -> Unit,
+    onImageClick:() -> Unit,
     onEditorVisibilityChange: () -> Unit
 ) {
     Box(
@@ -558,7 +582,8 @@ fun EditorControls(
                         onClick = {
                             applyControlStyle(
                                 editorControl = it,
-                                onLinkClick = onLinkClick
+                                onLinkClick = onLinkClick,
+                                onImageClick = onImageClick
                             )
                         }
                     )

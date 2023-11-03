@@ -26,6 +26,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.zIndex
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.text.SpanText
 import kotlinx.browser.document
+import me.learn.blogmultiplatformshofwan.models.EditorControl
 import me.learn.blogmultiplatformshofwan.models.Theme
 import me.learn.blogmultiplatformshofwan.utils.constant.Constant.FONT_ARIAL_FAMILY
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
@@ -74,9 +75,10 @@ fun Popup(
 }
 
 @Composable
-fun LinkPopup(
+fun ControlPopUp(
+    editorControl: EditorControl,
     onDialogDismiss: () -> Unit,
-    onLinkAdded: (String, String) -> Unit
+    onAddClick: (String, String) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -112,7 +114,10 @@ fun LinkPopup(
                     .noBorder()
                     .backgroundColor(Theme.LightGreyColor.rgb)
                     .toAttrs {
-                        attr("placeholder", "Href")
+                        attr(
+                            "placeholder", if (editorControl == EditorControl.Link)
+                                "Href" else "Image Url"
+                        )
                     }
             )
 
@@ -130,7 +135,10 @@ fun LinkPopup(
                     .noBorder()
                     .backgroundColor(Theme.LightGreyColor.rgb)
                     .toAttrs {
-                        attr("placeholder", "Title")
+                        attr(
+                            "placeholder", if (editorControl == EditorControl.Link)
+                                "Title" else "Description"
+                        )
                     }
             )
 
@@ -142,7 +150,7 @@ fun LinkPopup(
                         val title =
                             (document.getElementById(IdConst.InputType.linkTitle) as HTMLInputElement).value
 
-                        onLinkAdded(href, title)
+                        onAddClick(href, title)
                         onDialogDismiss()
                     }
                     .fillMaxWidth()

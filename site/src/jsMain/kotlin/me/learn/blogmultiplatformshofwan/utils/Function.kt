@@ -141,7 +141,11 @@ fun applyControlStyle(
         }
 
         EditorControl.Code -> {
-
+            applyStyle(
+                ControlStyle.Code(
+                    selectedText = getSelectedText()
+                )
+            )
         }
     }
 }

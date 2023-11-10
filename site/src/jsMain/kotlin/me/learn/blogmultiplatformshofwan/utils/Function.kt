@@ -15,6 +15,7 @@ import me.learn.blogmultiplatformshofwan.navigation.Screen
 import me.learn.blogmultiplatformshofwan.utils.constant.IdConst
 import org.jetbrains.compose.web.css.CSSSizeValue
 import org.jetbrains.compose.web.css.CSSUnit
+import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.w3c.dom.HTMLTextAreaElement
 import org.w3c.dom.get
@@ -46,6 +47,15 @@ fun sizeBreakpoint(
 ): CSSSizeValue<CSSUnit.px> {
     return if (condition) positive.px
     else negative.px
+}
+
+fun sizeBreakpointPercent(
+    condition: Boolean,
+    positive: Int = 0,
+    negative: Int = 0,
+): CSSSizeValue<CSSUnit.percent> {
+    return if (condition) positive.percent
+    else negative.percent
 }
 
 fun logout() {

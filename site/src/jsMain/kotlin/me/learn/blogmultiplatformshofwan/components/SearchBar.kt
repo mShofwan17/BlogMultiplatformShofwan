@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.compose.css.CSSTransition
+import com.varabyte.kobweb.compose.css.TransitionProperty
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -51,12 +52,12 @@ fun SearchBar(
                 style(LineStyle.Solid)
                 color(if (focused) Theme.PrimaryColor.rgb else Theme.LightGreyColor.rgb)
             }
-            .transition(CSSTransition(property = "border", duration = 200.ms)),
+            .transition(CSSTransition(property = TransitionProperty.All, duration = 200.ms)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         FaMagnifyingGlass(
             modifier = Modifier
-                .color(Theme.DarkGray.rgb)
+                .color(if (focused) Theme.PrimaryColor.rgb else Theme.DarkGray.rgb)
                 .margin(right = 14.px),
             size = IconSize.SM
         )

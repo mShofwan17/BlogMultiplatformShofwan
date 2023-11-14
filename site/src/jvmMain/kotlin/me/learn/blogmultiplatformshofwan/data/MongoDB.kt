@@ -4,10 +4,14 @@ import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
 import com.varabyte.kobweb.api.init.InitApiContext
 import kotlinx.coroutines.reactive.awaitFirst
+import me.learn.blogmultiplatformshofwan.models.ListPost
 import me.learn.blogmultiplatformshofwan.models.Post
 import me.learn.blogmultiplatformshofwan.models.User
 import me.learn.blogmultiplatformshofwan.utils.Constant.DATABASE_NAME
+import me.learn.blogmultiplatformshofwan.utils.Constant.POST_PER_PAGE
 import org.litote.kmongo.and
+import org.litote.kmongo.coroutine.toList
+import org.litote.kmongo.descending
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.reactivestreams.getCollection
@@ -53,5 +57,15 @@ class MongoDB(private val context: InitApiContext) : MongoRepository {
 
     override suspend fun addPost(post: Post): Boolean {
         return postCollection.insertOne(post).awaitFirst().wasAcknowledged()
+    }
+
+    override suspend fun readMyPost(skip: Int, author: String): List<ListPost> {
+        return postCollection
+            .withDocumentClass(ListPost::class.java)
+            .find(ListPost::authorName eq author)
+            .sort(descending(ListPost::date))
+            .skip(skip)
+            .limit(POST_PER_PAGE)
+            .toList()
     }
 }

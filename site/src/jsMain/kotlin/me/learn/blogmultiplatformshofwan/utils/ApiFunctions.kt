@@ -7,6 +7,7 @@ import kotlinx.browser.window
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import me.learn.blogmultiplatformshofwan.models.ApiListResponse
 import me.learn.blogmultiplatformshofwan.models.Post
 import me.learn.blogmultiplatformshofwan.models.RandomJoke
 import me.learn.blogmultiplatformshofwan.models.User
@@ -99,5 +100,21 @@ suspend fun addPost(post: Post): Boolean {
     } catch (e: Exception) {
         println(e.message.toString())
         false
+    }
+}
+
+suspend fun fetchListPost(
+    skip: Int,
+    onSuccess: (ApiListResponse) -> Unit,
+    onError: (Exception) -> Unit
+) {
+    try {
+        val result = window.api.tryGet(
+            apiPath = "list_post?skip=$skip&author=${localStorage["username"]}"
+        )?.decodeToString()
+
+        onSuccess(Json.decodeFromString(result.toString()))
+    } catch (e: Exception) {
+        onError(e)
     }
 }
